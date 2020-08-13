@@ -14,6 +14,7 @@ for number in example:
   print(transformed_number)
 
 
+
 #1. Transform item to have "recipe_"
 #2. Take each item from the list
 #3. Print transformed value
@@ -23,6 +24,8 @@ for menu in example_3:
     recp = "recipe_"
     transformed_menu = recp + menu
     print(transformed_menu) 
+
+
 
 
 
