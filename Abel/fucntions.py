@@ -63,6 +63,7 @@ def greater_than_three(num):
         
     
 def items_greater_than_three(items):
+    """ returns list of items greater than 3"""
     item_list = []
     for item in items:
         if greater_than_three(item):
