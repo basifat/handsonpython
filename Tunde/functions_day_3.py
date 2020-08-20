@@ -94,6 +94,17 @@ def manipulate_words(word):
     return capitalize
 
 
+#Write a decorator function that capitalize a word
+# defined word_capitalize  decorator that capitalizes a word
+
+@word_capitalize
+def get_word(word):
+    return word
+
+result = get_word("decorate")
+print(result) # DECORATE
+
+
 
 
 
