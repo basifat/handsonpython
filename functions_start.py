@@ -1,12 +1,10 @@
 # Write a function that returns a list containing only unique items from a list
-# Example output = [1,2,3,4,5]
+# output = [1,2,3,4,5]
+#loop through the item list
+# create a new list and add numbers to the new list if not already in the list
 
-#Tasks to produce result
-#1. loop through the item list
-#2. create a new list and add numbers to the new list if not already in the list
 
 def unique_items(items):
-    """Gets unique item from a list"""
     unique = []
     for item in items:
         if item not in unique:
@@ -18,12 +16,10 @@ duplicate= [1,1,1,2,2,2,3,4,5,5]
 a = unique_items(duplicate)
 print(a)
 
-## Uses python builtin set to elimnate duplicates
-b = set(duplicate)
-print(b)
+# b = set(duplicate)
+# print(b)
 
 def multiply_item_by_two(item):
-    """Helper function for multiplying by 2"""
     return item * 2
 
 def multiple_item_by_ten(item):
@@ -82,15 +78,6 @@ print(filtered)
 
 filtered_2 = filter(item_greater_than_three, numbers)
 print(filtered_2)
-
-#Write a function that returns a list of items with only items greater than 3
-# output = [4,5,6]
-
-def items_greater_than_three(items):
-    #decalres an empty list
-    for item in items:
-        # appends item to list
-    # returns the list
 
 
 
