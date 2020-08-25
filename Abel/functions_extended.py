@@ -32,7 +32,7 @@ print(final)
 # output = ['hello-jen', 'hello-ben', 'hello-ken', 'hello-meg']
 
 
-def spit_text(word):
+def split_text(word):
     a = word.split("t")
     d= a[0]
     def transformed_names(name_list):
@@ -46,7 +46,7 @@ def spit_text(word):
 
 names = ["jen","ben","ken","meg"]
 
-cool_names = spit_text("hello-tunde")
+cool_names = split_text("hello-tunde")
 cooler_names = cool_names(names)
 print(cooler_names)
 
