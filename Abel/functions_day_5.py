@@ -1,6 +1,5 @@
 # funtional programing pipeline
 # functions generator 
-# functions type hints 
 # functions Aliasing
 # Arbitriary keyword argument for a function
 from functions_extended import addition as sum_total
@@ -25,19 +24,15 @@ print(transformed_num)
 filtered_numbers = list(filter(filter_num, transformed_num))
 print(filtered_numbers)
 
-def find_numbers(numbers):
-    for number in numbers:
-        print(number)
-
 def gen_find_numbers(numbers):
     for number in numbers:
         yield number
 
-find_numbers(number_list)
 gen_result = gen_find_numbers(number_list)
-#print(next(gen_result))
 
-def gen_timer(): #return a number from the generator every 5 seconds
+
+def gen_timer():
+    """ returns a number from the generator every 5 seconds """
     while True:
         try:
             time.sleep(5)
@@ -47,7 +42,7 @@ def gen_timer(): #return a number from the generator every 5 seconds
             print(" genarator exusted")
             return
 
-#gen_timer()
+gen_timer()
 
 # write a function that have one parameter and accepts many argument
 # call the the function three times with different argument

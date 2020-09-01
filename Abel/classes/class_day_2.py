@@ -16,13 +16,13 @@ class Bank:
         self.customer_name= customer_name
         self.account_no = account_no
         self.balance = 0
-        self.total = 0
         self.ledger =[]
         
         
     def withdraw(self, amount):
         if self.balance>= amount:
             self.balance = self.balance- amount
+            print("Withdraw Successful",self.balance)
             self.ledger.append(f"{self.customer_name} withdrew {amount} ")
             return self.ledger
         else:
@@ -35,10 +35,10 @@ class Bank:
         
 
     
-    def transfer(self, amount, dest_account):
+    def transfer(self, amount, recipient):
         if self.balance>= amount:
             self.balance = self.balance- amount
-            self.total = self.total + amount
+            recipient.balance += amount
             return (f"Transfer Successfull you transfered {amount} pounds")
         else:
             return ("Insufficient Funds", self.balance)
