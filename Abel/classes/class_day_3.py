@@ -37,7 +37,7 @@ class NordeaBank(Bank):
         self.withdraw(amount)
         recipient.deposit(amount)
         return self.balance
-         
+
 
 bank_1= NordeaBank("Joe",234)
 send_funds=bank_1.deposit(50)
@@ -47,14 +47,45 @@ bank_2= NordeaBank("mat",678)
 print(bank_1.bank_transfer(20, bank_2))
 
 
+
+
+class Faculties:
+
+    __deen_age =90
+    deen_age = __deen_age
+
+    def __deen(self):
+        return "Mr Banjo"
+
+    def list_faculties(self,):
+        name=self.__deen()
+        lst = ["Agric","Pharmacy"]
+        lst.append(name)
+        return lst
+
+    def public_deen(self):
+        return self.__deen()
+
+    def get_deen(self):
+        return "Mr Banjo Ojamila"
+
+department = Faculties()
+print(department.list_faculties())
+
+class UniIbadanWallet(Faculties):
+    def get_deen(self):
+        name=super().get_deen()
+        return "phd " + name
+
+uni_wallet = UniIbadanWallet
+
+
 #1. Add a transfer method which is an abstract method to the GenericUniversityWallet class
 #2. Specify how each child class i.e university of manchester implments its transfer method 
 from abc import ABC, abstractmethod 
 class GenericUniversityWallet(ABC):
     uni_name = ""
    
-        
-
     def print_uni_name(self):
         return f" Hey this the {self.uni_name}"
 
@@ -64,6 +95,7 @@ class GenericUniversityWallet(ABC):
 
     def withdraw(self, amount):
         raise NotImplementedError
+    
     @abstractmethod
     def bank_transfer(self, amount, recipient):
         pass
