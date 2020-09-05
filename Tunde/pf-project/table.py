@@ -82,11 +82,27 @@ def get_student(student_no):
 # update information for a specific student record
 # find the student to update
 # update record for found student
-def update_student(student_no):
+# pass 'GPA' to update_student as a keyword argument
+# update existing GPA To the new gpa from keyword argument
+
+def update_student(student_no, **kwargs):
     student_info = get_student(student_no)
-    student_info['GPA'] = 4.2
+
+    if 'new_gpa' in kwargs:
+        student_info['GPA'] = kwargs["new_gpa"]
+    if "new_full_name" in kwargs:
+        student_info["full_name"] = kwargs["new_full_name"]
     return student_info
-    #print(student_info)
+
+
+def update_student_2(student_no, new_full_name = None, new_gpa = None):
+    student_info = get_student(student_no)
+    if new_gpa is not None:
+        student_info['GPA'] = new_gpa
+    
+    if new_full_name is not None:
+        student_info["full_name"] = new_full_name
+    return student_info
 
 
 # Assignment
@@ -98,18 +114,54 @@ def update_student(student_no):
 
 
 
-
+# james="hello_world", full_name="Peter", dodldo="kdododo", unlimited=")292020202"
 
 #print(records)
 #new_rec =get_student(1002)
 #print(new_rec)
-updated_student = update_student(1002)
+# updated_student = update_student(1002, new_gpa= 5.5,new_full_name="Tunde")
+# print(updated_student)
+
+# new_student =update_student(1001, new_full_name="Tiger Cruze")
+# print(new_student)
+
+# updated_gpa =update_student(1001, new_gpa=3.5)
+# print(updated_gpa)
+
+updated_student = update_student_2(1002, new_gpa= 5.5,new_full_name="Tunde")
 print(updated_student)
 
 
+new_student =update_student_2(1001, new_full_name="Tiger Cruze")
+print(new_student)
+
+
+new_student =update_student_2(1001, new_gpa=3.5)
+print(new_student)
 # dic = {'1000': {'a': 'hello', 'b': 10, 'c': 90.9}, 'b': 29, 'm': [1,2,3,4]}
 # dic = {"a": 10, "b": "Tunde", "c": 40.6}
 # print(dic['1000'])
+
+
+
+#Assignment
+
+# define a function that accepts a student no and then deletes that student record
+
+# example records before deleting
+# records = {
+#               "1000": {'student_no': 1000, 'GPA': 4.9, 'full_name': 'James'}, 
+#               "1001": {'student_no': 1001, 'GPA': 4.95, 'full_name': 'Tale'}
+#           }
+
+#example records after deleting student with record '1000'
+# records = {
+#               "1001": {'student_no': 1001, 'GPA': 4.95, 'full_name': 'Tale'}
+#           }
+
+#Bonus:
+#If we try to delete a student that does not exist, we should return a message saying "Sorry, it appears that student does not exist in this records."
+
 
 
 
