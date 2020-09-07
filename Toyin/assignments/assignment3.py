@@ -1,4 +1,4 @@
-# Assignment after class_day_2.py
+# Assignment after class_day_2.py****************INCOMPLETE
 
 ## Transfer money from one customer of the bank to another customer of the bank. i.e John sends 50 to Lee
 ## Keep a record/ledger of every deposit and withdrawal for a customer. i.e John withdraws 50, then later deposits 200, 
