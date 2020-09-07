@@ -35,7 +35,7 @@ def update_student(student_no, **kwargs):
     if "new_gpa" in kwargs:
         student_info["GPA"]= kwargs["new_gpa"] 
     
-    if "new_fill_names" in kwargs:
+    if "new_full_names" in kwargs:
         student_info['full_names']= kwargs["new_full_names"]
     return student_info
 
@@ -48,31 +48,25 @@ def update_student_record(student_no, new_full_names=None, new_gpa=None):
     return student_info
 
 
-
-    
-# james_details=row(1000, 4.9, "james")
-# print(james_details)
-
+# defining student details
 james_row = {"student_no": 1000, "GPA": 4.9, "full_names": "james"}
 paul_row = {"student_no": 1001, "GPA": 3.9, "full_names": "paul"}
-   
+
+#adding student row to record   
 james_key = add_row_to_record(james_row)
 
-
 paul_key = add_row_to_record(paul_row)
-#print(paul_key)
-#print (record)
+
 new_update= update_student_record(1001, new_gpa=6.0, new_full_names="Don Raymond")
-# student_id = get_student(1001)
-#print(student_id)
 
 
-# updated= update_student(1000, new_gpa =1.5,new_full_names="Tiger Cruz")
-# print(updated)
-# updated_name = update_student(1001, new_full_names= "Roger Miller")
-# print(updated_name)
-# updated_gpa = update_student(1000, new_gpa= 8.5)
-# print(updated_gpa)
+# updating student details
+updated= update_student(1000, new_gpa =1.5,new_full_names="Tiger Cruz")
+print(updated)
+updated_name = update_student(1001, new_full_names= "Roger Miller")
+print(updated_name)
+updated_gpa = update_student(1000, new_gpa= 8.5)
+print(updated_gpa)
 
 
 #Assignment
@@ -101,10 +95,10 @@ def delete_student(student_no):
     if student_no in record:
        del record[student_no]
     else:
-        print("Sorry, it appears that student does not exist in this records.") 
+        return "Sorry, it appears that student does not exist in this records."
     return record
 
-   
+# delete student with id 1000   
 delete =delete_student(1000)
 print(delete)
 
