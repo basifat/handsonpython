@@ -128,16 +128,16 @@ def update_student_2(student_no, new_full_name = None, new_gpa = None):
 # updated_gpa =update_student(1001, new_gpa=3.5)
 # print(updated_gpa)
 
-updated_student = update_student_2(1002, new_gpa= 5.5,new_full_name="Tunde")
-print(updated_student)
+# updated_student = update_student_2(1002, new_gpa= 5.5,new_full_name="Tunde")
+# print(updated_student)
 
 
-new_student =update_student_2(1001, new_full_name="Tiger Cruze")
-print(new_student)
+# new_student =update_student_2(1001, new_full_name="Tiger Cruze")
+# print(new_student)
 
 
-new_student =update_student_2(1001, new_gpa=3.5)
-print(new_student)
+# new_student =update_student_2(1001, new_gpa=3.5)
+# print(new_student)
 # dic = {'1000': {'a': 'hello', 'b': 10, 'c': 90.9}, 'b': 29, 'm': [1,2,3,4]}
 # dic = {"a": 10, "b": "Tunde", "c": 40.6}
 # print(dic['1000'])
@@ -163,10 +163,41 @@ print(new_student)
 #If we try to delete a student that does not exist, we should return a message saying "Sorry, it appears that student does not exist in this records."
 
 
+#Aggregation
+## Sum the GPA for all students
+
+records = {
+              "1000": {'student_no': 1000, 'GPA': 4.9, 'full_name': 'James'}, 
+              "1001": {'student_no': 1001, 'GPA': 4.95, 'full_name': 'Tale'},
+            "1002": {'student_no': 1002, 'GPA': 2.95, 'full_name': 'Sale'}
+          }
+
+#return 4.9 + 4.95
+#records['GPA']
+print(records['1000']["GPA"])
+
+
+def aggregate(student_no):
+    total =0
+    for gpa in records['1000']: # {'student_no': 1000, 'GPA': 4.9, 'full_name': 'James'}
+        print(gpa, "gpa printed")
+        # total = total + gpa
+    return total
+
+
+gpa_sum = aggregate('1000')
+print(gpa_sum)
+
+#Assignment
+# Write a an aggregate function that sums the GPA of all students (sum all the GPAs)
+# Bonus 1: 
+# Do the sum if the GPA is greater than 3.0
+
+# Bonus 2: 
+# Write a function that finds the average of the GPA of all students(gpa_sum = 9.85) --> (average = 9.85 / total_no_of_students)
 
 
 
 
 
-
-
+    
