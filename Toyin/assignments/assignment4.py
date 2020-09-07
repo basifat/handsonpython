@@ -1,4 +1,5 @@
-#Assignment
+#Assignment**********************COMPLETE
+#Assignment from class_day_3.py
 # 
 #1.create a generic bank class that allows us to create the other types of bank that we had before
 #2. We now have a generic university. we then need to have a method for each university that allows
@@ -11,7 +12,7 @@
 #withdraw
 
 # 1.1
-class GenericBank:
+# class GenericBank:
     
     def __init__(self, customer_name, account_no):
         self.customer_name= customer_name
@@ -121,4 +122,30 @@ print(student_uni_2)
 #3 Metaclasses -> create an abstract class that require the user or callee to define both deposit and withdraw methods
 # require me to define a method called deposit
 #withdraw
+
+from abc import ABC, abstractmethod
+
+class LloydsBank(ABC):
+    balance = 100
+
+    def __init__(self, customer, wallet_no):
+        self.wallet_no = wallet_no
+        self.customer = customer
+        
+
+    def deposit(self, amount):
+        self.balance += amount
+        return f"{self.customer} deposited {amount} and balance is {self.balance}"
+
+    def withdraw(self, amount):
+        if self.balance >= amount:
+            self.balance = self.balance - amount
+            return f"{self.customer} withdrew {amount} and the balance is {self.balance}"        
+            
+        return ("Insufficient funds", self.balance)
+
+
+customer_transactions = LloydsBank('Abel', 113)
+print(customer_transactions.deposit(10))
+print(customer_transactions.withdraw(50))
 
