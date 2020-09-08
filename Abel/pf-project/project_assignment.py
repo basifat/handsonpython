@@ -14,26 +14,29 @@ records = {
           }
 
 def aggregate(student_records):
-    total_gpa = sum(record['GPA'] for record in student_records.values()) 
+    total_gpa = sum(record['GPA'] for record in student_records.values() if record["GPA"] > 3) 
     return round(total_gpa, 2)
 
 def aggregate_2(student_records):
     """ returns the sum of all student gpa in student records"""
     total = 0
     for record in student_records.values():
-        if record["GPA"] > 3.0:
-            total +=record["GPA"]
-    return round(total, 2)
+        gpa=record["GPA"]
+        if gpa > 3.0:
+            total += gpa
+    return round(total,2)
 
-def average_gpa(student_records):
+def average_gpa_2(student_records):
     """ calculete the aerage of all student gpa """
     gpa_total= aggregate_2(student_records)
-    return gpa_total/len(student_records.values())
+    extracted_gpa = [record['GPA'] for record in student_records.values() if record["GPA"] > 3]
+    return gpa_total/len(extracted_gpa)
 
 
 gpa_sum=aggregate_2(records)
 print(gpa_sum)
 
-average=average_gpa(records)
+average=average_gpa_2(records)
 print(average)
+
 
