@@ -25,13 +25,23 @@ print(sum_of_gpa)
 
 
 #sum of GPA greater than 3.0
-def aggregate(records):
+def aggregate_greater_than3(records):
     list_of_gpa= ({key:values['GPA'] for key,values in records.items()})
-    if list_of_gpa.values() > 3.0:
-        return (sum(list_of_gpa.values()))
-
-sum_of_gpa_greater_than3 = aggregate(records)
+    return sum(values for values in list_of_gpa.values() if values > 3.0)
+    
+sum_of_gpa_greater_than3 = aggregate_greater_than3(records)
 print(sum_of_gpa_greater_than3)
+
+
+
+# average of GPA
+def aggregate_average(records):
+    list_of_gpa= ({key:values['GPA'] for key,values in records.items()})
+    average = (sum(list_of_gpa.values()))/len(list_of_gpa)
+    return average
+
+average_of_gpa = aggregate_average(records)
+print(average_of_gpa)
 
 
 
