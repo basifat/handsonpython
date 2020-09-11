@@ -95,7 +95,7 @@ def get_student(student_no):
 
 def update_student(student_no, **kwargs):
     student_info = get_student(student_no)
-
+    print(student_info, "student info")
     if "new_gpa" in kwargs:
         student_info["GPA"] = kwargs["new_gpa"]
     if "new_full_name" in kwargs:
@@ -183,18 +183,25 @@ records = {
 # print(records['1000']["GPA"])
 
 
-def aggregate(student_no):
+# def aggregate(student_no):
+#     total = 0
+#     for gpa in records[
+#         "1000"
+#     ]:  # {'student_no': 1000, 'GPA': 4.9, 'full_name': 'James'}
+#         # print(gpa, "gpa printed")
+#         # total = total + gpa
+#         pass
+#     return total
+def aggregate(student_records):
+    """ returns the sum of all student gpa in student records"""
     total = 0
-    for gpa in records[
-        "1000"
-    ]:  # {'student_no': 1000, 'GPA': 4.9, 'full_name': 'James'}
-        # print(gpa, "gpa printed")
-        # total = total + gpa
-        pass
-    return total
+    for record in student_records.values():
+        gpa=record["GPA"]
+        if gpa > 3.0:
+            total += gpa
+    return round(total,2)
 
-
-gpa_sum = aggregate("1000")
+# gpa_sum = aggregate("1000")
 # print(gpa_sum)
 
 # Assignment
@@ -268,10 +275,13 @@ paul_row = row(
 
 
 def load_csv_to_table(source_file):
-    with open(source_file, mode="r") as csv_file:
+    path = get_file_path(source_file)
+    with open(path, mode="r") as csv_file:
         reader = csv.DictReader(csv_file, delimiter=",")
         for row in reader:
             add_row_to_records(row)
+
+    return records
 
 
 # with open('names.csv', 'w', newline='') as csvfile:
@@ -282,11 +292,13 @@ def load_csv_to_table(source_file):
 #     writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})
 #     writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
 #     writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})
+def get_file_path(filename):
+    return os.path.join(sys.path[0], filename)
 
 
 def dump_table_to_csv(output_file, table):
-
-    with open(output_file, "w", newline="") as f:
+    path = get_file_path(output_file)
+    with open(path, "w", newline="") as f:
         fieldnames = ["student_no", "GPA", "full_name"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
@@ -316,41 +328,59 @@ paul = add_row_to_records(paul_row)
 
 example_add_single_student_info = (1012, 4.5, "Paul")
 
-def table(search_student_no=None, add_single_student_info = None):
-    if add_single_student_info is not None:
-        student_row = row(*add_single_student_info)
-        return add_row_to_records(student_row)
-    if search_student_no is not None:
-        return get_student(search_student_no) 
 
-found = table(add_single_student_info=example_add_single_student_info)
+def delete_student(student_no):
+    if student_no in records:
+        del records[student_no]
+    else:
+        return "Sorry, it appears that student does not exist in this records."
+    return records
+
+
+
+def table(
+    search_student_no=None,
+    add_single_student=None,
+    collection_add_students=None,
+    update_student_info=None,
+    delete_student_info=None,
+    table_output_file=None,
+    table_input_file=None,
+    student_no_to_aggregate =None
+):
+    if add_single_student is not None:
+        student_row = row(*add_single_student)
+        return add_row_to_records(student_row)
+    if collection_add_students is not None:
+        for record in collection_add_students:
+            students = add_row_to_records(record)
+        return students
+    if search_student_no is not None:
+        return get_student(search_student_no)
+    if update_student_info is not None:
+        first, second, third = update_student_info
+        return update_student(str(first), new_gpa=second, new_full_name=third)
+    if delete_student_info is not None:
+        return delete_student(delete_student_info)
+    if table_output_file is not None:
+        return dump_table_to_csv(table_output_file,records)
+    if table_input_file is not None:
+        return load_csv_to_table(table_input_file)
+    if student_no_to_aggregate is not None:
+        return aggregate(student_no_to_aggregate)
+    
+
+
+example_students = {
+   "1000": {"student_no": 1000, "GPA": 4.9, "full_name": "James"},
+  "1001":  {"student_no": 1001, "GPA": 4.9, "full_name": "paul"},
+}
+print(records)
+example_add_single_student_info =  (1001, 4.5, "Paul") # ('1002': {"new_gpa": 4.5, "new_full_name":"Paul"})
+found = table(student_no_to_aggregate=example_students)
 print(found)
 
-
-# records = table(
-#     collection_add_students=example_students,
-#     write_table_to_csv= "student_output.csv",
-#     search_student_no=1000,
-#     single_add_student=student_to_add,
-#     update_student=student_to_update,
-#     delete_student=student_to_delete,
-#     write_table_to_csv= "student_output.csv",
-#     load_table_from_csv= "student_input.csv"
-# )
-
-
-# new_students = table(
-#     collection_add_students=example_students,
-#     search_student_no=None,
-#     single_add_student=None,
-#     update_student=None,
-#     delete_student=None,
-# )
-
-# found_student = table(
-#     collection_add_students=None,
-#     search_student_no=1000,
-#     single_add_student=None,
-#     update_student=None,
-#     delete_student=None,
-# )
+### 
+## Group functions that have similar behaviour into own files.
+## create as many files as you need
+## import functionalities from those files into this file for usage
