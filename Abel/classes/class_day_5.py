@@ -37,7 +37,9 @@ print(Employee.get_employee_age("Jack Robinson", 1990))
 # Use dunder methods __len__, __getitem__, __iter__, __next__, __enter__ and __exit__.
 
 class Garrage():
-
+    """ this class adds car to garrage 
+    and retuns the number of cars in garrage using len method"""
+    
     def __init__(self):
         self.cars= []
     def __len__(self):
@@ -79,18 +81,14 @@ print(next(pow_two))
 print(next(pow_two))
 
 class Log:
-    
+    """ class creates and write to a file using enter and exit method """ 
     def __init__(self,filename):
         self.filename=filename
         self.fp=None    
     
     def logging(self,text):
         self.fp.write(text+'\n')
-    
-    # def __enter__(self):
-    #     print("__enter__")
-    #     self.fp=open(self.filename,"w+")
-    #     return self    
+       
     
     def __enter__(self):
         print("__enter__")
@@ -102,9 +100,9 @@ class Log:
         self.fp.close()
 
 with Log(r"myfile.txt") as logfile:
-    print("Main")
+    print("Main") 
     logfile.logging("This is a test file, use at your own risk")
-    #logfile.logging("Test2")
+    
 
 
 
