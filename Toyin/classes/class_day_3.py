@@ -24,7 +24,7 @@ class BitcoinBank:
 
 owner_crypto = BitcoinBank("Tunde", 8888)
 print(owner_crypto)
-#output is Customer Tunde with bit address 8888.
+#output is Customer Tunde with account no 8888.
 
 #to print the balance
 print(owner_crypto.balance)#output is 0

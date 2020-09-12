@@ -1,4 +1,4 @@
-# Assignment after class_day_1.py
+# Assignment after class_day_1.py********************COMPLETE
 
 #1.1 Restaurant: Make a class called Restaurant. The _init_() method for Restaurant should store two attributes: 
 # a restaurant_name and a cuisine_type. Make a method called describe_restaurant() that prints these two pieces of 
@@ -12,34 +12,32 @@
 # other attributes that are typically stored in a user profile. Make a method called describe_user() that prints a summary 
 # of the user's information. Make another method called greet_user() that prints a personalized greeting to the user. 
 # Create several instances representing different users, and call both methods for each user
-# assignment 1.1(a)
+
+
+#assignment 1.1(a)
 
 class Restaurant:
     def __init__(self, a, b):
         self.restaurant_name = a
         self.cuisine_type = b
 
-    def get_describe_restaurant(self):
-        return self.restaurant_name
+    def describe_restaurant(self):
+        return f"{self.restaurant_name} restaurant and cuisine type is {self.cuisine_type}"
 
-    def get_describe_restaurant_2(self):
-        return self.cuisine_type
+    # 1.1(b)
+    def open_restaurant(self):
+        return f"{self.restaurant_name} restaurant is open for business"
 
 food_place= Restaurant(a="Vermillion", b="Indian")
-
-print(food_place.get_describe_restaurant())
-print(food_place.get_describe_restaurant_2())
+print(food_place.describe_restaurant())
+print(food_place.open_restaurant())
 
 #without a method
 print(food_place.restaurant_name)
 print(food_place.cuisine_type)
 
-# 1.1(b)
-    def set_open_restaurant(self, restaurant)
-        self.restaurant
-
-
-#assignment 1.2
+        
+# #assignment 1.2
 class Restaurant:
     def __init__(self, a, b, c):
         self.restaurant_name = a
@@ -62,7 +60,13 @@ class User:
     def __str__(self):
         return f"Customer {self.first_name} with last name {self.last_name} with middle name {self.middle_name} with maiden name {self.maiden_name}."
         
-        
+    def describe_user(self):
+        return 'user with first name {} and last name {} has a middle name {} and maiden name {}'.format(
+            self.first_name, self.last_name, self.middle_name, self.maiden_name)
+
+    def greet_user(self):
+        return 'We are glad to welcome u on board {}'. format(self.first_name)
+
     #def get_describe_user(self):
     #     return self.first_name
     # def get_describe_user_2(self):
@@ -74,6 +78,8 @@ class User:
 
 names = User("Debs", "Ade", "Tosin", "oni")
 print(names)
+print(names.describe_user())
+print(names.greet_user())
 
 
 

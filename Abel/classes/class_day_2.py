@@ -17,21 +17,23 @@ class Bank:
         self.account_no = account_no
         self.balance = 0
         self.ledger =[]
-        
-        
+    
+
     def withdraw(self, amount):
         if self.balance>= amount:
             self.balance = self.balance- amount
-            print("Withdraw Successful",self.balance)
-            self.ledger.append(f"{self.customer_name} withdrew {amount} ")
-            return self.ledger
+            self.ledger.append(f"{self.customer_name} withdrew {amount} pounds")
+            print(self.ledger)
+            return ("Withdraw Successful",self.balance)
         else:
             return ("Insufficient Funds", self.balance)
+        
 
     def deposit(self, amount):
         self.balance += amount
         self.ledger.append(f" {self.customer_name} deposited {amount}")
-        return self.ledger
+        print(self.ledger)
+        return ("deposit Successful",self.balance)
         
 
     
@@ -50,10 +52,13 @@ john = Bank("John Bosco", "648")
 deposited =john.deposit(500)
 print(deposited)
 
-#Transfer from one Bank Customer to another Account
-jane = Bank("jane", "444")
-print(john.transfer(50 ,jane))
 
-# Withdraw
+
+# #Transfer from one Bank Customer to another Account
+# jane = Bank("jane", "444")
+# print(john.transfer(50 ,jane))
+
+# # Withdraw
 withdrawal = john.withdraw(100)
 print(withdrawal)
+
