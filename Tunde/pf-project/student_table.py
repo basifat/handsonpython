@@ -55,12 +55,6 @@ class StudentTable:
     def get_file_path(self, filename):
         return os.path.join(sys.path[0], filename)
 
-    # def dump_single_record(self, output_file, record):
-    #     path = self.get_file_path(output_file)
-    #     with open(path, "a", newline="\n") as f:
-    #         fieldnames = ["student_no", "gpa", "full_name"]
-    #         writer = csv.DictWriter(f, fieldnames=fieldnames)
-    #         writer.writerow(record)
 
     def dump_table_to_csv(self, output_file):
         path = self.get_file_path(output_file)
@@ -88,6 +82,14 @@ print(table.get_records())
 
 
 
+
+
+# def dump_single_record(self, output_file, record):
+#     path = self.get_file_path(output_file)
+#     with open(path, "a", newline="\n") as f:
+#         fieldnames = ["student_no", "gpa", "full_name"]
+#         writer = csv.DictWriter(f, fieldnames=fieldnames)
+#         writer.writerow(record)
 #Assignment
 # Define a class for Table which will have certain abtsract methods and also certain concrete methods
 # Define a class for student, which will have all the methods or attributes that students need to deal with
