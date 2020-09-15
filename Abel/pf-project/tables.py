@@ -237,30 +237,4 @@ example_info_to_update =  ("1012", 4.5, "Paul")
 found_student = table(update_student_info=example_info_to_update)
 print(found_student)
 
-# records = table(
-#     collection_add_students=example_students,
-#     write_table_to_csv= "student_output.csv",
-#     search_student_no=1000,
-#     single_add_student=student_to_add,
-#     update_student=student_to_update,
-#     delete_student=student_to_delete,
-#     write_table_to_csv= "student_output.csv",
-#     load_table_from_csv= "student_input.csv"
-# )
 
-
-# new_students = table(
-#     collection_add_students=example_students,
-#     search_student_no=None,
-#     single_add_student=None,
-#     update_student=None,
-#     delete_student=None,
-# )
-
-# found_student = table(
-#     collection_add_students=None,
-#     search_student_no=1000,
-#     single_add_student=None,
-#     update_student=None,
-#     delete_student=None,
-# )
