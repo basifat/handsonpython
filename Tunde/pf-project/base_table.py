@@ -1,6 +1,9 @@
 # Table abtsraction
 # CRUD -> Create (add), Retrieve (get), Update, Delete
 from abc import ABC, abstractmethod
+import os, sys
+import csv
+
 
 class BaseTable(ABC):
 
@@ -29,8 +32,41 @@ class Table(BaseTable):
         return self.records
 
 
-class Student(Table):
+class DataHandler(Table):
+
+
+    def read_from_csv(self):
+        raise NotImplementedError
+
+    def write_to_csv(self):
+        raise NotImplementedError
+
+    def get_file_path(self, filename):
+        return os.path.join(sys.path[0], filename)
+
+
+class Student(DataHandler):
     
+    table_name = "student.csv"
+    fieldnames = ["student_no", "gpa", "full_name"]
+    
+    def write_student_to_csv(self):
+        path = self.get_file_path(self.table_name)
+        with open(path, "w", newline="") as f:
+
+            writer = csv.DictWriter(f, fieldnames=self.fieldnames)
+            writer.writeheader()
+            for key in self.records.values():
+                writer.writerow(key)
+        print(f"Wrote {len(self.records)} records to file." )
+
+    def load_student_records_to_table(self):
+        path = self.get_file_path(self.table_name)
+        with open(path, mode="r") as csv_file:
+            reader = csv.DictReader(csv_file, delimiter=",")
+            for row in reader:
+                self.add_student(**row)
+        return self.records
 
     def get_student(self,student_no):
         try:
@@ -41,12 +77,12 @@ class Student(Table):
     def convert_student_info_to_dict(self, **kwargs):
         return dict(**kwargs)
 
-
     def add_student(self, **kwargs):
         row = self.convert_student_info_to_dict(**kwargs)
         student_info = row["student_no"]
         self.records[int(student_info)] = row
-        #self.dump_table_to_csv(self.table_name)
+        # find a way to write each student to table, incrementally
+        self.write_student_to_csv()
         return self.records
 
     def update_student(self,student_no, **kwargs):
@@ -79,6 +115,16 @@ class StudentTable(Student):
     def delete(self, student_no):
         return self.delete_student(student_no)
 
+    def write_to_csv(self):
+        self.write_student_to_csv()
+
+    def read_from_csv(self):
+        return self.load_student_records_to_table()
+
+    
+
+    
+
 
 ### Remaining 4 methods:
 #Can we reclocate any of them to the Student class?
@@ -89,19 +135,33 @@ class StudentTable(Student):
 #If not, which ones need to become private? (table.get_student())
 # Do we think that all of these classes should be in a single file or they need to be seperated? 
 
+
+#Create a class Lecturer
+# full_name, faculty, no_of_courses, no_of_students, title
+
+#Add a lecturer
+#Update a lecturer info
+#delete a lecturer info
+#get a lecturer info
+
+
         
 
 table = StudentTable()
-result = table.create(student_no=1011, gpa=4.2, full_name="James")
+# result = table.create(student_no=1011, gpa=4.2, full_name="James")
+# print(result)
+# result = table.retrieve(1011)
+# print(result)
+# result = table.update(1011, new_gpa=5.0, full_name="James")
+# print(result)
+# esult = table.delete(1011)
+# print(rersult)
+# result = table.delete(1011)
+# print(result)
+# table.write_to_csv()
+result = table.read_from_csv()
 print(result)
-result = table.retrieve(1011)
-print(result)
-result = table.update(1011, new_gpa=5.0, full_name="James")
-print(result)
-result = table.delete(1011)
-print(result)
-result = table.delete(1011)
-print(result)
+
 
 
 
