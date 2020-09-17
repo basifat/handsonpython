@@ -1,6 +1,4 @@
-student_no,GPA,full_names
-1011,4.8,Susan jones
-1012,1.1,"Andrew, Peters"
+student_no,gpa,full_names
 1000,4.5,James
 1001,4.9,John
 1002,3.5,Ruth
