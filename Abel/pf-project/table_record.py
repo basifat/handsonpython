@@ -73,7 +73,6 @@ class DataHandler(Table):
                 self.add_record(**row)
         return self.records
     
-    
     def read_from_csv(self):
         raise NotImplementedError
 
@@ -91,7 +90,6 @@ class Student(DataHandler):
 
     def add_student(self, **kwargs):
         return self.add_record(**kwargs)
-        
          
     def write_student_to_csv(self):
         self.write_record_to_csv(self.fieldnames, self.table_name)
@@ -112,7 +110,6 @@ class Lecturer(DataHandler):
     
     def add_lecturer(self, **kwargs):
         return self.add_record(**kwargs)
-        
 
     def update_lecturer(self, entity_id,**kwargs):
         lecturer_info = self.records[entity_id]
