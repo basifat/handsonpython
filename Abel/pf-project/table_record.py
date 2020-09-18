@@ -31,10 +31,49 @@ class Table(BaseTable):
     def get_records(self):
         return self.records
 
+    def delete_record(self,entity_id):
+        if entity_id in self.records:
+            del self.records[entity_id]
+        else:
+            return "Sorry, it appears that record does not exist."
+        return self.records
+
+    def get_record(self,entity_id):
+        try:
+            return self.records[entity_id]
+        except KeyError:
+            return "No record matching that entity id in the table"
+
+    def convert_record_info_to_dict(self, **kwargs):
+        return dict(**kwargs)
+    
+    def add_record(self, **kwargs):
+        row = self.convert_record_info_to_dict(**kwargs)
+        entity_id= row["entity_id"]
+        self.records[int(entity_id)] = row
+        return self.records
+
 
 class DataHandler(Table):
 
+    def write_record_to_csv(self, fieldnames, table_name):
+        path = self.get_file_path(table_name)
+        with open(path, "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            for key in self.records.values():
+                writer.writerow(key)
+        print(f"Wrote {len(self.records)} records to file." )
 
+    def load_records_to_table(self, table_name):
+        path = self.get_file_path(table_name)
+        with open(path, mode="r") as csv_file:
+            reader = csv.DictReader(csv_file, delimiter=",")
+            for row in reader:
+                self.add_record(**row)
+        return self.records
+    
+    
     def read_from_csv(self):
         raise NotImplementedError
 
@@ -48,78 +87,35 @@ class DataHandler(Table):
 class Student(DataHandler):
     
     table_name = "student.csv"
-    fieldnames = ["student_no", "gpa", "full_names"]
-
-    def convert_student_info_to_dict(self, **kwargs):
-        return dict(**kwargs)
-
+    fieldnames = ["student_no", "gpa", "full_name"]
 
     def add_student(self, **kwargs):
-        row = self.convert_student_info_to_dict(**kwargs)
-        student_info = row["student_no"]
-        self.records[int(student_info)] = row
-        #self.dump_table_to_csv(self.table_name)
-        # find a way to write each student to table, incrementally
-        #self.write_student_to_csv()
-        return self.records
-
+        return self.add_record(**kwargs)
+        
+         
     def write_student_to_csv(self):
-        path = self.get_file_path(self.table_name)
-        with open(path, "w", newline="") as f:
+        self.write_record_to_csv(self.fieldnames, self.table_name)
 
-            writer = csv.DictWriter(f, fieldnames=self.fieldnames)
-            writer.writeheader()
-            for key in self.records.values():
-                writer.writerow(key)
-        print(f"Wrote {len(self.records)} records to file." )
-
-    def load_student_records_to_table(self):
-        path = self.get_file_path(self.table_name)
-        with open(path, mode="r") as csv_file:
-            reader = csv.DictReader(csv_file, delimiter=",")
-            for row in reader:
-                self.add_student(**row)
-        return self.records
-
-    def get_student(self,student_no):
-        try:
-            return self.records[student_no]
-        except KeyError:
-            return "No student matching that student no in the table"
+    def read_student_records_from_csv(self):
+        return self.load_records_to_table(self.table_name)
 
     def update_student(self,student_no, **kwargs):
-        student = self.get_student(student_no)
+        student = self.get_record(student_no)
         if "new_gpa" in kwargs:
             student["gpa"] = kwargs["new_gpa"]
         if "new_full_name" in kwargs:
             student["full_name"] = kwargs["new_full_name"]
         return student
 
-    def delete_student(self,student_no):
-        if student_no in self.records:
-            del self.records[student_no]
-        else:
-            return "Sorry, it appears that student does not exist in this records."
-        return self.records
-
-    
-    
-
-
-
+   
 class Lecturer(DataHandler):
     
-    def create(self, **kwargs):
-        return dict(**kwargs)
-
     def add_lecturer(self, **kwargs):
-        row = self.create(**kwargs)
-        lecturer_info= row["full_name"]
-        self.records[lecturer_info] = row
-        return self.records
+        return self.add_record(**kwargs)
         
-    def update(self, full_name,**kwargs):
-        lecturer_info = self.records[full_name]
+
+    def update_lecturer(self, entity_id,**kwargs):
+        lecturer_info = self.records[entity_id]
         if "updated_courses" in kwargs:
             lecturer_info["no_of_courses"] = kwargs["updated_courses"]
 
@@ -127,77 +123,65 @@ class Lecturer(DataHandler):
             lecturer_info['no_of_student'] = kwargs["updated_no_student"]
         return lecturer_info
 
-    def retrieve(self,full_name):
-        try:
-            return self.records[full_name]
-        except KeyError:
-            return "No lecturer matching that name in the table"
-
-
-    def delete(self, full_name):
-        if full_name in self.records:
-            del self.records[full_name]
-        else:
-            return "Sorry, it appears that lecturer name does not exist in this records."
-        return self.records
-
     
-    
+class LecturerTable(Lecturer):
+
+
+    def create(self, **kwargs):
+        return self.add_lecturer(**kwargs)
+
+    def retrieve(self, lecturer_no):
+        return self.get_record(lecturer_no)
+
+    def update(self,lecturer_no,**kwargs):
+        return self.update_lecturer(lecturer_no, **kwargs)
+
+    def delete(self, lecturer_no):
+        return self.delete_record(lecturer_no)
+
+    # def read_from_csv(self):
+    #     return self.load_records_to_table
+
+
 class StudentTable(Student):
 
     def create(self, **kwargs):
         return self.add_student(**kwargs)
 
     def retrieve(self, student_no):
-        return self.get_student(student_no)
+        return self.get_record(student_no)
 
     def update(self,student_no,**kwargs):
         return self.update_student(student_no, **kwargs)
 
     def delete(self, student_no):
-        return self.delete_student(student_no)
+       return self.delete_record(student_no)
 
     def write_to_csv(self):
         self.write_student_to_csv()
 
     def read_from_csv(self):
-        return self.load_student_records_to_table()
+        return self.read_student_records_from_csv()
 
     
 
 
-table = Lecturer()
-result=table.add_lecturer(full_name="John Bosco", faculty="Business IT", no_of_courses= 2, no_of_student=10, title="Egineer")
-result=table.add_lecturer(full_name="Wole Soyinka", faculty="Law", no_of_courses= 1, no_of_student=30, title="Professor")
-result=table.update("John Bosco", updated_no_student=20)
+table = LecturerTable()
+result=table.add_lecturer(entity_id=1, full_name="John Bosco", faculty="Business IT", no_of_courses= 2, no_of_student=10, title="Egineer")
+result=table.delete(1)
+print(result)
 
-result1 = table.delete("John Bosco")
-print(table.records)
+table2=StudentTable()
+reult=table2.read_from_csv()
+print(result)
+#result=table.update("John Bosco", updated_no_student=20)
 
-
-
-
-#Create a class Lecturer
-# full_name, faculty, no_of_courses, no_of_students, title
-
-#Add a lecturer
-#Update a lecturer info
-#delete a lecturer info
-#get a lecturer info
+# result1 = table.delete("John Bosco")
+# print(table.records)
 
 
-# result = table.create(student_no=1011, gpa=4.2, full_name="James")
-# print(result)
-# result = table.retrieve(1011)
-# print(result)
-# result = table.update(1011, new_gpa=5.0, full_name="James")
-# print(result)
-# esult = table.delete(1011)
-# print(rersult)
-# result = table.delete(1011)
-# print(result)
-# table.write_to_csv()
-#table.write_to_csv()
-#print(table.records)
+
+
+
 
 
