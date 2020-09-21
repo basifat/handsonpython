@@ -1,4 +1,4 @@
-#Assignment
+#Assignment saturday 05/09/20
 #define a function that accepts a student number and then deletes that student record
 #example records before deleting
 # records = {"1000": {'student_no':1000, 'GPA': 4.9, 'full_name': 'James'},

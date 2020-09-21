@@ -117,7 +117,7 @@ print(updated_student)
 
 
 #Assignment
-#define a function that accepts a student number and then deletes that student recor
+#define a function that accepts a student number and then deletes that student record
 #example records before deleting
 # records = {"1000": {'student_no':1000, 'GPA': 4.9, 'full_name': 'James'},
 #             "1001":{'student_no': 1001, 'GPA': 4.95, 'full_name': 'Tale'}
