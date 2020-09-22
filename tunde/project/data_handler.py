@@ -1,7 +1,7 @@
 import os, sys
 import csv
 
-from table import Table
+from tunde.project.table import Table
 
 
 class DataHandler(Table):

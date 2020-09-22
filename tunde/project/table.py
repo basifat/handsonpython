@@ -1,4 +1,4 @@
-from base_table import BaseTable
+from tunde.project.base_table import BaseTable
 
 
 class Table(BaseTable):

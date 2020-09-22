@@ -1,6 +1,4 @@
-from students.student import Student
-
-# print(dir(Student))
+from tunde.project.students.student import Student
 
 
 class StudentTable(Student):

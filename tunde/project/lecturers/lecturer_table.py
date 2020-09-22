@@ -1,4 +1,4 @@
-from Tunde.pf_project.lecturers.lecturer import Lecturer
+from tunde.project.lecturers.lecturer import Lecturer
 
 
 class LecturerTable(Lecturer):

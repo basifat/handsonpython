@@ -1,4 +1,4 @@
-from data_handler import DataHandler
+from tunde.project.data_handler import DataHandler
 
 
 class Student(DataHandler):
