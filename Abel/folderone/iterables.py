@@ -1,14 +1,4 @@
-# declaring a list
-sample = ["red", "blue", "green", "black", "white"]
-cars = ["toyota", "benz"]
-# Assigning a new value to a list
-sample[3] = "violet"
-print(sample)
-# Adding new item to the list
-sample.append("purple")
-print(sample)
-sample.extend(cars)
-print(sample)
+import time
 
 def filter_items(numbers):
     """ 
@@ -35,13 +25,6 @@ def list_extension(numbers):
     """ this is a list comrenhension function that adds 2 to every number in the list"""
     numbers_updated = [number+2 for number in numbers]
     return numbers_updated
-
-
-
-# funtional programing pipeline
-# functions generator 
-# functions Aliasing
-# Arbitriary keyword argument for a function
 
 
 def multiply(number):
@@ -77,8 +60,8 @@ def gen_find_numbers(numbers):
 number_list = [ 2,4,6,8]
 gen_result = gen_find_numbers(number_list)
 
-import time
-def gen_timer(gen_result):
+
+def gen_timer():
     """ 
     returns a number from the generator every 5 seconds
     Example usage: the generator function 'gen_find_numbers' is invoked by giving it a list as an arguement
@@ -86,12 +69,20 @@ def gen_timer(gen_result):
     the gen_result is then passed to the variable 'result' in the gen_timer function.
     
     """
+    
     while True:
         try:
-            time.sleep(5)
+            time.sleep(2)
             result = next(gen_result)
+            print(result)
         except StopIteration:
             return "genarator exusted"
+        
+    return result
+    
+
+
+
 
 
 

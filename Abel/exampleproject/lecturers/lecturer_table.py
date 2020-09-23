@@ -1,3 +1,6 @@
+""" This class implements the abstract methods of 'Base Table', 
+and also inherits method from the student class. 
+"""
 import sys
 from Abel.exampleproject.lecturers.lecturer import Lecturer
 
@@ -16,7 +19,7 @@ class LecturerTable(Lecturer):
         return self.delete_record(lecturer_no)
 
     def write_to_csv(self):
-        self.write_records_to_csv(self.fieldnames, self.table_name)
+        self._write_records_to_csv(self.fieldnames, self.table_name)
 
     def read_from_csv(self):
-        return self.load_records_to_table(self.table_name)
+        return self._load_records_to_table(self.table_name)

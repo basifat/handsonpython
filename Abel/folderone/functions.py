@@ -1,6 +1,6 @@
 def unique_items(duplicate):
     """ 
-    Get unique items of a list.
+    Gets unique items of a list.
     Example input = [1,1,1,2,2,2,3,3,4,5]
     Example output = [1,2,3,4,5]
     create new list and add numbers to the list if not already in the list

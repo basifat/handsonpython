@@ -1,21 +1,24 @@
-def hello_decorator(fn):
-    """ Decorator function"""
-    def wrapper():
-        fn()
-    return wrapper
+def addten(fn):
+    """ decorator function """
+    def inner_function():
+        return fn() + 10
+    return inner_function
 
-@hello_decorator
-def hello():
-    return "we are in Hello function"
+@addten
+def threepoweroftwo():
+    """ returns the value of 3 **3 + the value from the decorator"""
+    return 3**3  
 
-def hello_decorator_function(fn):
-    """ invoking fn() twice"""
-    def wrapper():
-        fn()
-        fn()
-    return wrapper
+def add(*firstargs):
+    """ decorator function that accepts an arguement"""
+    def inner(fn):
+        def wrapper(*nextargs):
+            a, b = firstargs
+            return fn(*nextargs) + a + b
+        return wrapper
+    return inner
 
-@hello_decorator_function
-def hello_fn():
-    """ this will return the string twice"""
-    return "we are in Hello function"
+@add(10, 5)
+def poweroftwo(first, second):
+    """ returns the value of the first arguement raise to the power of the second argument"""
+    return first**second

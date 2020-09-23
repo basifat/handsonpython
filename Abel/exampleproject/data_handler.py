@@ -5,8 +5,9 @@ from Abel.exampleproject.table import Table
 
 
 class DataHandler(Table):
-
-    def write_records_to_csv(self, fieldnames, table_name):
+    
+    def _write_records_to_csv(self, fieldnames, table_name):
+        """ this method writes to a csv file"""
         path = self.get_file_path(table_name)
         with open(path, "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -15,7 +16,8 @@ class DataHandler(Table):
                 writer.writerow(key)
         print(f"Wrote {len(self.records)} records to file." )
 
-    def load_records_to_table(self, table_name):
+    def _load_records_to_table(self, table_name):
+        """ Loads data from csv to a dictionary"""
         path = self.get_file_path(table_name)
         with open(path, mode="r") as csv_file:
             reader = csv.DictReader(csv_file, delimiter=",")
@@ -31,5 +33,6 @@ class DataHandler(Table):
         raise NotImplementedError
 
     def get_file_path(self, filename):
+        """ this method join one or more path components intelligently"""
         return os.path.join(sys.path[0], filename)
 

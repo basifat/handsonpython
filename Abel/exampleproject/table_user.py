@@ -8,3 +8,4 @@ from Abel.exampleproject.students.student_table import StudentTable
 table2= StudentTable()
 result2=table2.create(entity_id=1000,new_gpa=6.5)
 print(result2)
+

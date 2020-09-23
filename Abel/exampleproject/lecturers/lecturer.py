@@ -1,10 +1,11 @@
+""" This module defines the behaviour of a university Lecturer class information """
 from Abel.exampleproject.data_handler import DataHandler
+
 
 class Lecturer(DataHandler):
 
     table_name = "lecturer.csv"
     fieldnames = ['entity_id', 'full_name', 'faculty', 'no_of_courses', 'no_of_student', 'title']
-    
     
     def add_lecturer(self, **kwargs):
         return self.add_record(**kwargs)

@@ -1,7 +1,8 @@
 from base_table import BaseTable
 
 class Table(BaseTable):
-
+    """ The table class defines methods that are inherited by student_table and lectural_table"""
+    
     records = {}
 
     def get_records(self):
