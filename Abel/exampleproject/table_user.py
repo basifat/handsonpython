@@ -6,6 +6,9 @@ from Abel.exampleproject.students.student_table import StudentTable
 # print(result)
 
 table2= StudentTable()
-result2=table2.create(entity_id=1000,new_gpa=6.5)
+result2=table2.create(entity_id=1000, gpa=6.5)
 print(result2)
+
+update=table2.update(student_nos=1000,new_gpa=3.5 )
+print(update)
 

@@ -38,17 +38,21 @@ class GenericUniversityWallet(ABC):
 
 
     def deposit(self, amount):
+        """ deposit funds to owner's account""" 
         raise NotImplementedError 
 
     def withdraw(self, amount):
+        """ withdraw funds from owner's account"""
         raise NotImplementedError
     
     @abstractmethod
     def bank_transfer(self, amount, recipient):
+        """ transfer funds from one account to another"""
         pass
 
 
 class UniGlasgow(GenericUniversityWallet):
+    """ inherits properties of the super class """
 
     def __init__(self, student_name, account_no):
         self.student_name = student_name
@@ -73,6 +77,7 @@ class UniGlasgow(GenericUniversityWallet):
 
 
 class UniLeeds(UniGlasgow):
+    """ implements the abtract method 'bank_transfer' from the super class """
     
     def send_mail(self):
         return "check email for reference number"

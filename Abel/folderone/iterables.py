@@ -63,23 +63,33 @@ gen_result = gen_find_numbers(number_list)
 
 def gen_timer():
     """ 
-    returns a number from the generator every 5 seconds
+    returns a number from the generator function every 2 seconds
     Example usage: the generator function 'gen_find_numbers' is invoked by giving it a list as an arguement
     gen_result = gen_find_numbers(number_list),
     the gen_result is then passed to the variable 'result' in the gen_timer function.
     
     """
+    result =[]
+    
+    def extract_value():
+        try:
+            time.sleep(2)
+            next_item = next(gen_result)
+            return next_item
+        except StopIteration as e:
+            raise e
     
     while True:
         try:
-            time.sleep(2)
-            result = next(gen_result)
-            print(result)
-        except StopIteration:
-            return "genarator exusted"
+            item= extract_value()
+            result.append(item)
+        except:
+            return result, "generator exhausted"
         
-    return result
     
+
+    
+
 
 
 

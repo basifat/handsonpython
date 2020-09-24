@@ -34,9 +34,6 @@ class PowerOfTwo:
         else:
             raise StopIteration
 
-pow_two = iter(PowerOfTwo(10))
-print(next(pow_two))
-print(next(pow_two))
 
 class Log:
     """ 
