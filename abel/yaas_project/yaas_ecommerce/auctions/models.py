@@ -26,8 +26,9 @@ class Auction(models.Model):
         
     ]
     email=models.EmailField(null=True) # replace with actual object 
-    latest_bidder = models.CharField(null=True, max_length=20)# replace with actual object
-    seller = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, default='username')
+    latest_bidder =models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='latest_bidder', default=1)
+    bidders=models.ManyToManyField(settings.AUTH_USER_MODEL)
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='seller')
     title = models.CharField(max_length=255)
     description=models.TextField()
     minimum_price = models.DecimalField(max_digits=7, decimal_places=2,default=1)
@@ -79,6 +80,8 @@ def send_auction_email(sender, instance, created, **kwargs):
 
     pass
 
-
+#seller -> latest_bidder 
+#latest_bidder -> book
+#latest_bidder1 -> book 
 
 

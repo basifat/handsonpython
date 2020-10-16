@@ -43,9 +43,9 @@ class AuctionViewSet(viewsets.ModelViewSet):
         if request.method == "PUT":
             instance = self.get_object()
   
-            if float(request.data["price"]) < instance.price:
+            if float(request.data["price"]) <=instance.price:
                 raise BidTooLowException
-
+            
             if instance.seller == request.data["seller"]:
                 raise SameSellerException
             
