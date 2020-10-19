@@ -63,7 +63,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
- #AUTH_USER_MODEL = 'yaasusers.YaasUser'
+AUTH_USER_MODEL = 'yaasusers.YaasUser'
 
 ROOT_URLCONF = 'yaas_ecommerce.urls'
 

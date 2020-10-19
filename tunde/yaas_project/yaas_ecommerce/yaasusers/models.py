@@ -5,17 +5,17 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 from django.contrib.auth.models import PermissionsMixin
+from yaasusers.manager import YaasUserManager
 
-
-class YaasUser(models.Model):
-  user=models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class YaasUser(AbstractBaseUser, PermissionsMixin):
   username = models.CharField(max_length=20, unique=True)
-  password = models.CharField(max_length=20)
+  first_name= models.CharField(max_length=255,null=True)
+  last_name= models.CharField(max_length=255,null=True)
   email = models.CharField(max_length=20)
-  text =  models.CharField(max_length=20)
-#   created = models.DateTimeField(auto_now_add=True)
-#   is_anonymous =  models.BooleanField(default=False)
-#   is_authenticated = models.BooleanField(default=False)
+  created = models.DateTimeField(auto_now_add=True)
+  is_staff= models.BooleanField(default=False)
+  
 
-  REQUIRED_FIELDS = ['email']
+  REQUIRED_FIELDS = ['email', 'created']
   USERNAME_FIELD = 'username'
+  objects=YaasUserManager()

@@ -24,7 +24,7 @@ from yaasusers import views as YaasUserViews
 router = DefaultRouter()
 router.register(r'items', BasketViews.ItemViewSet, basename='item')
 router.register(r'auctions', AuctionViews.AuctionViewSet, basename='auction')
- #router.register(r'users', YaasUserViews.YaasUserViewSet, basename='user')
+router.register(r'users', YaasUserViews.YaasUserViewSet, basename='user')
 
 urlpatterns = [
     path('', include(router.urls)),
