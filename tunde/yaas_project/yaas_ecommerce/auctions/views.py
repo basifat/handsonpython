@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from datetime import datetime, timedelta, timezone
 import pytz
+from auctions.tasks import add
 
 
 class SameSellerException(APIException):
@@ -49,17 +50,16 @@ class AuctionViewSet(viewsets.ModelViewSet):
            
             if instance.status == 'banned':
                 raise BannedAuctionException
+
             if float(request.data["price"]) <= float(instance.price):
                 raise BidTooLowException
             
-            
-            if instance.seller.id == int(request.data['bidder']):
+            if instance.seller.id == int(request.user.id):
                 raise SameSellerException
             
-            
-            if instance.bidder.id == int(request.data["bidder"]):
-                raise WinningBidderException
-        
+            #if instance.bidder.id == int(request.user.id):
+            #   raise WinningBidderException
+            add.delay(1000, 8)
         return super().update(request, *args, **kwargs)
 
 # If a user bids at an auction within five minutes of the auction deadline, 

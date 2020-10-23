@@ -13,13 +13,18 @@ class AuctionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Auction
         fields = '__all__'
-        read_only_fields = ['latest_bidder', 'deadline', 'bidders','seller']
+        read_only_fields = ['bidder', 'deadline', 'bidders','seller']
 
-    def create(self, validated_data):
+    def get_user(self):
         user = None
         request = self.context.get("request")
         if request and hasattr(request, "user"):
            user = request.user
+        
+        return user
+
+    def create(self, validated_data):
+        user = self.get_user()
 
         validated_data['seller']= user
         return super().create(validated_data)
@@ -29,11 +34,14 @@ class AuctionSerializer(serializers.ModelSerializer):
         bid_time = datetime.now(timezone.utc)
         minutes_apart = instance.deadline - bid_time
 
+        user = self.get_user()
+
+
         if (minutes_apart.seconds % 3600 / 60.0) <= 20:
             instance.deadline = instance.deadline + timedelta(minutes=5)
-        #instance.latest_bidder = validated_data['seller']
-     
-        
+        instance.bidder = user
+        print(instance.bidders.values_list('email', flat=True))
+        instance.bidders.add(user)
 
         return super().update(instance, validated_data)
 

@@ -8,7 +8,7 @@ from yaasusers.models import YaasUser
 
 
 def get_deadline():
-    return datetime.now(timezone.utc) + timedelta(hours=72)
+    return datetime.now(timezone.utc) + timedelta(seconds=10)
 
 
 class Auction(models.Model):
@@ -40,6 +40,45 @@ class Auction(models.Model):
         choices= AUCTION_LIFECYCLE_CHOICES,
         default= 'active'
     )
+#heck if deadline of an AUCTION is IN THE PAST
+
+def is_past_deadline(instance):
+    current_time=datetime.now(timezone.utc)
+    return current_time > instance.deadline
+        
+
+def change_auction_status(instance):
+    if is_past_deadline(instance):
+        instance.status='due'
+        instance.save()
+
+
+def send_winning_bidder_email():
+    due_auctions = Auction.objects.filter(status='due')
+    for auction in due_auctions:
+        send_mail(
+        f'Auction {auction.title} has been won by {auction.bidder}',
+        f"We have an Auction Winner",
+        'admin@yaasacution.com',
+        [instance.seller.email, *bidders_email],
+        fail_silently=False,
+        )
+
+
+
+### curenttime is 19.30:00
+### currentime is 10:45:00
+## deadline is 19:30:10
+## deadline is 10:45:10
+
+change_auction_status(auction_7)
+
+auction_7 = Auction.objects.get(id=7)
+print(auction_7.status, "whats auction_7")
+
+#Know if auction is past deadline
+#email bidders, winining bidder and the seller that someone has won
+#resolve auctomatically
     
     
 #.....   | #bidders      | seller
@@ -84,14 +123,15 @@ def send_updated_email(instance):
     )
 
 def send_banned_email(instance):
+    bidders_email = instance.bidders.values_list('email', flat=True)
     send_mail(
         f'Your auction {instance.title} has been banned',
         f"You violated our policy",
         'admin@yaasacution.com',
-        [instance.seller.email, instance.latest_bidder.email, instance.bidders.email],
+        [instance.seller.email, *bidders_email],
         fail_silently=False,
     )
-
+#read up on celery
 #auction -> laptop -> seller -> latest_bidder 
 #auction -> pencil
 
@@ -116,7 +156,7 @@ def send_banned_email(instance):
 
 @receiver(post_save, sender=Auction)
 def send_auction_email(sender, instance, created, **kwargs):
-
+    send_banned_email(instance)
     # if created:
     #   send_created_mail()
     # send_updated_email()
