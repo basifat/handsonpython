@@ -20,18 +20,10 @@ def debug_task(self):
     print('Request: {0!r}'.format(self.request))
 
 app.conf.beat_schedule = {
-    # Executes every day at  12:30 pm.
-    'run-every-onesecond': {
-        'task': 'sum_two_numbers',
-        'schedule': crontab(day_of_week="thu,fri", minute="*/1"),
-        'args': (1000, 8),
-    },
-
-    # Executes every day at  12:30 pm.
     'schedule-winner-bidder-email-every-1-second': {
         'task': 'scheduled_send_winning_bidder_email',
-        'schedule': crontab(day_of_week="thu,fri", minute="*/1"),
+        'schedule': crontab(day_of_week="mon,tue,wed,thu,fri,sat,sun", minute="*/1"),
         'args': (),
-    }
+    },
 }   
 

@@ -8,7 +8,7 @@ from yaasusers.models import YaasUser
 
 
 def get_deadline():
-    return datetime.now(timezone.utc) + timedelta(seconds=10)
+    return datetime.now(timezone.utc) + timedelta(hours=72)
 
 
 class Auction(models.Model):
@@ -40,78 +40,7 @@ class Auction(models.Model):
         choices= AUCTION_LIFECYCLE_CHOICES,
         default= 'active'
     )
-#heck if deadline of an AUCTION is IN THE PAST
 
-def is_past_deadline(instance):
-    current_time=datetime.now(timezone.utc)
-    return current_time > instance.deadline
-        
-
-def change_auction_status(instance):
-    if is_past_deadline(instance):
-        instance.status='due'
-        instance.save()
-
-
-def send_winning_bidder_email():
-    due_auctions = Auction.objects.filter(status='due')
-    for auction in due_auctions:
-        send_mail(
-        f'Auction {auction.title} has been won by {auction.bidder}',
-        f"We have an Auction Winner",
-        'admin@yaasacution.com',
-        [instance.seller.email, *bidders_email],
-        fail_silently=False,
-        )
-
-
-
-### curenttime is 19.30:00
-### currentime is 10:45:00
-## deadline is 19:30:10
-## deadline is 10:45:10
-
-change_auction_status(auction_7)
-
-auction_7 = Auction.objects.get(id=7)
-print(auction_7.status, "whats auction_7")
-
-#Know if auction is past deadline
-#email bidders, winining bidder and the seller that someone has won
-#resolve auctomatically
-    
-    
-#.....   | #bidders      | seller
-#auction1 |  User(tunde) | seller1 User(seller1)
-#auction1 |  User(Segun) | seller1
-#auction1 |  User(James) | seller1
-
-#onetomany
-#manytomany
-#auction1 -> User(tunde)
-#auction1 -> User(Segun) 
-#auction1 -> User(James)   
-
-
-#auction2 -> User(tunde)
-#auction2 -> User(Segun) 
-#auction2 -> User(James) 
-
-#auction3 -> User(tunde)
-#auction3 -> User(Segun) 
-#auction3 -> User(James) 
-
-
-
-
-def send_created_email(instance):
-    send_mail(
-        f'New Auction {instance.id} Created',
-        f"You've just created a new auction with title {instance.title}",
-        'admin@yaasacution.com',
-        [instance.seller.email],
-        fail_silently=False,
-    )
 
 def send_updated_email(instance):
     send_mail(
@@ -154,13 +83,13 @@ def send_banned_email(instance):
      
 
 
-@receiver(post_save, sender=Auction)
-def send_auction_email(sender, instance, created, **kwargs):
-    send_banned_email(instance)
-    # if created:
-    #   send_created_mail()
-    # send_updated_email()
-    pass
+# @receiver(post_save, sender=Auction)
+# def send_auction_email(sender, instance, created, **kwargs):
+#     send_banned_email(instance)
+#     # if created:
+#     #   send_created_mail()
+#     # send_updated_email()
+    # pass
     
 
 

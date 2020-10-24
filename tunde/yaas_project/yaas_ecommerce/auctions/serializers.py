@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from auctions.models import Auction
 from yaasusers.models import YaasUser
+from auctions.tasks import task_send_created_email
 
 
 class AuctionSerializer(serializers.ModelSerializer):
@@ -27,7 +28,9 @@ class AuctionSerializer(serializers.ModelSerializer):
         user = self.get_user()
 
         validated_data['seller']= user
-        return super().create(validated_data)
+        instance= super().create(validated_data)
+        task_send_created_email.delay(instance.id)
+        return instance
         
 
     def update(self, instance, validated_data):
