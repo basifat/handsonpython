@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from datetime import datetime, timedelta, timezone
 import pytz
+from auctions.tasks import task_send_new_bid_email, task_send_banned_email
 
 
 
@@ -33,7 +34,7 @@ class BannedAuctionException(APIException):
 
 
 class AuctionViewSet(viewsets.ModelViewSet):
-    queryset = Auction.objects.exclude(status = 'banned')
+    queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     filterset_fields = ['title']
 
@@ -52,8 +53,8 @@ class AuctionViewSet(viewsets.ModelViewSet):
         if request.method == "PUT":
             instance = self.get_object()
            
-            if instance.status == 'banned':
-                raise BannedAuctionException
+            # if instance.status == 'banned':
+            #     raise BannedAuctionException
 
             if float(request.data["price"]) <= float(instance.price):
                 raise BidTooLowException
@@ -63,8 +64,17 @@ class AuctionViewSet(viewsets.ModelViewSet):
             
             #if instance.bidder.id == int(request.user.id):
             #   raise WinningBidderException
-            
-        return super().update(request, *args, **kwargs)
+
+            response = super().update(request, *args, **kwargs)
+         
+            if request.data['status']=='banned':
+                task_send_banned_email.delay(instance.id)
+                return response
+                
+            task_send_new_bid_email.delay(instance.id)
+            return response
+
+        # raise CertainException("Request method not handled") #aAssignment create a proper
 
 # If a user bids at an auction within five minutes of the auction deadline, 
 # the auction deadline is extended au-tomatically for an additional fiveve minutes. This allows other users to place

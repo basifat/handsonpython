@@ -36,6 +36,28 @@ def scheduled_send_winning_bidder_email():
             auction.status='resolved' #assignment should use value defined in class directly.
             auction.save()
 
+@task(name="task_send_new_bid_email")
+def task_send_new_bid_email(auction_id):
+    instance=Auction.objects.get(id=auction_id)
+    send_mail(
+        f'A new bid has been placed on {instance.title}',
+        f"Someone has placed a bid of {instance.price} on {instance.title}",
+        'admin@yaasacution.com',
+        [instance.seller.email, instance.bidder.email],
+        fail_silently=False,
+    )
+
+@task(name="task_send_banned_email")
+def task_send_banned_email(auction_id):
+    instance=Auction.objects.get(id=auction_id)
+    bidders_email = instance.bidders.values_list('email', flat=True)
+    send_mail(
+        f'Your auction {instance.title} has been banned',
+        f"You violated our policy",
+        'admin@yaasacution.com',
+        [instance.seller.email, *bidders_email],
+        fail_silently=False,
+    )
 
 #1. Auction.objects.filter(status='due') ##djdjdjdjdjdjdjdjd
 #2. Auction.objects.filter(status='due') []

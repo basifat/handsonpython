@@ -19,3 +19,20 @@ class YaasUser(AbstractBaseUser, PermissionsMixin):
   REQUIRED_FIELDS = ['email', 'created']
   USERNAME_FIELD = 'username'
   objects=YaasUserManager()
+
+
+
+#Add a new model called YaasUserLanguage
+#language = "english"
+#lang_iso = "GB-en"
+#user = YaasUser (as a foreign key)
+
+#make an API example /languages/4
+#language: english
+#lang_iso: GB-en
+#user select
+
+#Model
+#Views
+#Serializers
+#Endpoint
