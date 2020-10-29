@@ -1,21 +1,31 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import (
-    BaseUserManager,AbstractBaseUser
+from django.conf import settings
+from django.contrib.auth.models import (
+    BaseUserManager, AbstractBaseUser
 )
+from django.contrib.auth.models import PermissionsMixin
 from yaasusers.manager import YaasUserManager
 
-# Create your models here.
-class YaasUser(AbstractBaseUser,PermissionsMixin):
-    #user=models.OneToOneField(User, on_delete=models.CASCADE)
-    username=models.CharField(max_length=255, unique=True)
-    first_name= models.CharField(max_length=255 ,null=True)
-    last_name=models.CharField(max_length=255, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    email = models.CharField(max_length=20)
-    text = models.CharField(max_length=20)
+class YaasUser(AbstractBaseUser, PermissionsMixin):
+  username = models.CharField(max_length=20, unique=True)
+  first_name= models.CharField(max_length=255,null=True)
+  last_name= models.CharField(max_length=255,null=True)
+  email = models.CharField(max_length=20)
+  created = models.DateTimeField(auto_now_add=True)
+  is_staff= models.BooleanField(default=False)
+  
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'created']
-    objects=YaasUserManager()
+  REQUIRED_FIELDS = ['email', 'created']
+  USERNAME_FIELD = 'username'
+  objects=YaasUserManager()
+
+
+class YaasUserLanguage(models.Model):
+
+  language=models.CharField(max_length=40, null=True)
+  language_iso=models.CharField(max_length=20, null=True)
+  user=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+
+
+  

@@ -19,12 +19,14 @@ from rest_framework.routers import DefaultRouter
 from basket import views as Basketviews
 from auctions import views as Auctionviews
 from yaasusers import views as YaasUsersViews
+from yaasusers import views as YaasUsersLanguageViews
 
 
 router = DefaultRouter()
 router.register(r'items', Basketviews.ItemViewSet, basename='item')
 router.register(r'auctions', Auctionviews.AuctionViewSet, basename='auction')
 router.register(r'users', YaasUsersViews.YaasUserViewSet, basename='user')
+router.register(r'languages', YaasUsersLanguageViews.YaasUserLanguageViewSet, basename='language')
 
 
 

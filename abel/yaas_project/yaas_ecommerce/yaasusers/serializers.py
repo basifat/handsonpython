@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from yaasusers.models import YaasUser
+from yaasusers.models import YaasUser, YaasUserLanguage
 
 
 class YaasUserSerializer(serializers.ModelSerializer):
@@ -20,3 +20,11 @@ class YaasUserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+    
+class YaasUserLanguageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = YaasUserLanguage
+        fields = '__all__'
+        
+        

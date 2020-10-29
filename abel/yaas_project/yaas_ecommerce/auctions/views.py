@@ -5,6 +5,8 @@ from rest_framework.exceptions import APIException
 from datetime import datetime
 from auctions.models import Auction
 from auctions.serializers import AuctionSerializer
+from auctions.tasks import task_send_new_bid_email, task_send_banned_email
+
 
 
 class SameSellerException(APIException):
@@ -33,27 +35,39 @@ class AuctionViewSet(viewsets.ModelViewSet):
     """
     A simple ViewSet for listing or retrieving users.
     """
-    queryset = Auction.objects.exclude(status='banned')
+    #queryset = Auction.objects.exclude(status='banned')
+    queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     filterset_fields=['title']
     
 
-
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+    
     def update(self, request, *args, **kwargs):
+        print(request.user)
         if request.method == "PUT":
             instance = self.get_object()
   
             if float(request.data["price"]) <=instance.price:
                 raise BidTooLowException
+        
+            # if instance.seller.id == int(request.user.id):
+            #     raise SameSellerException
             
-            if instance.seller == request.data["seller"]:
-                raise SameSellerException
-            
-            if instance.latest_bidder == request.data["seller"]:
-                raise WinningBidderException
+            # if instance.bidder.id == int(request.user.id):
+            #     raise WinningBidderException
             if instance.status =='banned':
                 raise BannedAuctionException
-        return super().update(request, *args, **kwargs)
+            
+            response = super().update(request, *args, **kwargs)
+         
+            if request.data['status']=='banned':
+                task_send_banned_email.delay(instance.id)
+                return response
+                
+            task_send_new_bid_email.delay(instance.id)
+            return response
 
 
 #Assignment1

@@ -8,7 +8,7 @@ from yaasusers.models import YaasUser
 #default_user = YaasUser().objects.first()
 
 def get_deadline():
-    return datetime.now(timezone.utc) + timedelta(hours=72)
+    return datetime.now(timezone.utc) + timedelta(seconds=10)
 
     
 
@@ -25,8 +25,8 @@ class Auction(models.Model):
         ("resolved", "Resolved")
         
     ]
-    email=models.EmailField(null=True) # replace with actual object 
-    latest_bidder =models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='latest_bidder', default=1)
+    
+    bidder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='latest_bidder', default=1)
     bidders=models.ManyToManyField(settings.AUTH_USER_MODEL)
     seller = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='seller')
     title = models.CharField(max_length=255)
@@ -43,45 +43,10 @@ class Auction(models.Model):
         default='active'
     )
 
-def send_created_email(instance):
-    send_mail(
-        f'New Auction {instance.id} Created',
-        f"You've just created a new auction with title {instance.title}",
-        'admin@yaasacution.com',
-        [instance.seller.email],
-        fail_silently=False,
-    )
 
-def send_updated_email(instance):
-    send_mail(
-        f'A new bid has been placed on {instance.title}',
-        f"Someone has placed a bid of {instance.price} on {instance.title}",
-        'admin@yaasacution.com',
-        [instance.seller.email, instance.latest_bidder.email],
-        fail_silently=False,
-    )
-    
-def send_banned_email(instance):
-    send_mail(
-        f'your auction {instance.title} has been banned' ,
-        f"you violated our policies",
-        'admin@yaasacution.com',
-        [instance.seller.email, instance.latest_bidder.email, instance.bidders.email], 
-        fail_silently=False,
-    )
 
-@receiver(post_save, sender=Auction)
-def send_auction_email(sender, instance, created, **kwargs):
 
-    # if created:
-    #   send_created_mail()
-    # send_updated_email()
-    # send_banned_email()
 
-    pass
 
-#seller -> latest_bidder 
-#latest_bidder -> book
-#latest_bidder1 -> book 
 
 
