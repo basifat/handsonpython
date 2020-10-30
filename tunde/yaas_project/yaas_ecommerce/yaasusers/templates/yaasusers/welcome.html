@@ -1,0 +1,13 @@
+
+
+{% load i18n %}
+{% if language_list %}
+    <ul>
+    {% for language in language_list %}
+        <li><a href="/language_page/{{ language.id }}/">{{ translate language.language }} {{language.country}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No languages are available.</p>
+{% endif %}
+
