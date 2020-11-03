@@ -25,11 +25,20 @@ class Auction(models.Model):
         ('resolved', 'Resolved')
     ]
 
+    CURRENCIES_CHOICES = [
+        ('eur', 'EUR '),
+        ('usd', 'USD'),
+        ('gbp', 'GBP'),
+        ('ngn', 'NGN')
+
+    ]
+
     #remove default user for field
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='seller') #default user
     bidder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='latest_bidder', default=5)# replace with actual object
     email = models.EmailField(null=True) # remove once we have actual user
     title = models.CharField(max_length=255)
+    currency=models.CharField(max_length=3, choices= CURRENCIES_CHOICES, default='USD' )
     description = models.TextField()
     minimum_price = models.DecimalField(max_digits=7, decimal_places=2)
     price = models.DecimalField(max_digits=7, decimal_places=2)

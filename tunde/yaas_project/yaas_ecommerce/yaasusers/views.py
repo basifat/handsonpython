@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
+from django.conf import settings
+from django.utils.translation import gettext, activate, get_language
+from django.utils.translation import gettext as _
 from rest_framework import viewsets
 from yaasusers.models import YaasUser, YaasUserLanguage
 from yaasusers.serializers import YaasUserSerializer, YaasUserLanguageSerializer
@@ -25,10 +28,24 @@ def welcome(request):
     languages = YaasUserLanguage.objects.all()
     template = loader.get_template('yaasusers/welcome.html')
     context = {
-        'language_list': languages,
+        'language_list': [
+        _("Welcome to django webshop"), 
+        _("Random to django webshop")],
     }
-    return HttpResponse(template.render(context, request))
 
+    response =  HttpResponse(template.render(context, request))
+    # response.set_cookie(settings.LANGUAGE_COOKIE_NAME, "sv")
+    return response
+
+
+
+def translate_text(request):
+    # activate('sv')
+    # print(get_language(), "get_language")
+    # request.LANGUAGE_CODE = 'sv'
+    # print(request.LANGUAGE_CODE, " request.LANGUAGE_CODE")
+    output = _("Welcome to django webshop")
+    return HttpResponse(output)
 
 
 # #sv.po

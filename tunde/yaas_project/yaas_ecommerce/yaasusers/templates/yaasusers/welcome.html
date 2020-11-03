@@ -4,7 +4,9 @@
 {% if language_list %}
     <ul>
     {% for language in language_list %}
-        <li><a href="/language_page/{{ language.id }}/">{{ translate language.language }} {{language.country}}</a></li>
+        <!-- <li><a href="/language_page/{{ language.id }}/"> {language.language }} {{language.country}}</a></li> -->
+        <!-- {% trans "Welcome to django webshop" %} -->
+        {{ language }}
     {% endfor %}
     </ul>
 {% else %}

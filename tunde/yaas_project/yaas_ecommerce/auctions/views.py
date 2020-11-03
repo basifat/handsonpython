@@ -59,8 +59,8 @@ class AuctionViewSet(viewsets.ModelViewSet):
             if float(request.data["price"]) <= float(instance.price):
                 raise BidTooLowException
             
-            if instance.seller.id == int(request.user.id):
-                raise SameSellerException
+            # if instance.seller.id == int(request.user.id):
+            #     raise SameSellerException
             
             #if instance.bidder.id == int(request.user.id):
             #   raise WinningBidderException
@@ -72,7 +72,55 @@ class AuctionViewSet(viewsets.ModelViewSet):
                 return response
                 
             task_send_new_bid_email.delay(instance.id)
+            #task:
+            #convertion
+            #if currency is  GBP, then we want to return something(price*0.3)
+            # auction price =eur100
+            # user changes currency to ngn
+            # new price =100* 500
+            if request.data['currency']=='ngn':
+                float(instance.price) *500.00
+
             return response
+
+
+#Assignment 1
+# delacare a dictionary called currencies. It will ahve each of the currency we care about and their multiplier values
+# i.e currencies = {eur: 1, gbp: 1.11, ngn: 500}
+# When a user chooses gbp, we want the existing price to be multiplied by the currency multiplier.
+# i.e 
+# currency = gbp
+# (old) price = 100 
+# (new) price = 111
+
+
+#Assignment 2
+# Add a new field to auctions model called "display_currency_value"
+# # When a user chooses gbp, we want the value of "display_currency_value" to become the price multiplied by the multiplier.
+# i.e 
+# currency = gbp
+# price = 100 
+# display_currency_value = 111
+
+#https://openexchangerates.org/account/app-ids
+#80ab8cd3ecdd4965b928a15741c46a81
+
+#Assignment 3
+#Make a request to https://openexchangerates.org/api/latest.json?app_id=80ab8cd3ecdd4965b928a15741c46a81 
+# Tips on making a request:
+# Google how to make a request
+# Wrap making of the reqeust in a function
+# {
+#   "disclaimer": "Usage subject to terms: https://openexchangerates.org/terms",
+#   "license": "https://openexchangerates.org/license",
+#   "timestamp": 1604433600,
+#   "base": "USD",
+#   "rates": {
+#     "GBP": 0.7893,
+#     "NGN": 3.82,
+#   }
+# use the value of the multiplier for each currency we care about from the result of the API call
+
 
         # raise CertainException("Request method not handled") #aAssignment create a proper
 
