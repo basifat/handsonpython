@@ -31,8 +31,7 @@ router.register(r'languages', YaasUserViews.YaasUserLanguageViewSet, basename='l
 
 
 # i18n_patterns(
-urlpatterns = [
-    path('', include(router.urls)),
+urlpatterns = [path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('tunde', BasketViews.tundefn, name='tundefn-udid'),
     path('homepage', BasketViews.homepage, name='homepage'),

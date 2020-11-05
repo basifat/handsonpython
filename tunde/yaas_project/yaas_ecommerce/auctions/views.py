@@ -78,11 +78,10 @@ class AuctionViewSet(viewsets.ModelViewSet):
             # auction price =eur100
             # user changes currency to ngn
             # new price =100* 500
-            if request.data['currency']=='ngn':
-                float(instance.price) *500.00
+        
+
 
             return response
-
 
 #Assignment 1
 # delacare a dictionary called currencies. It will ahve each of the currency we care about and their multiplier values

@@ -6,6 +6,17 @@ from rest_framework import serializers
 from auctions.models import Auction
 from yaasusers.models import YaasUser
 from auctions.tasks import task_send_created_email
+from decimal import Decimal
+
+
+
+def currency_converter(amount, to_currency):
+    currency_converter= { 
+    'eur': 0.85, 
+    'gbp': 0.89,
+    'ngn': 5
+    }
+    return amount * currency_converter[to_currency]
 
 
 class AuctionSerializer(serializers.ModelSerializer):
@@ -38,13 +49,16 @@ class AuctionSerializer(serializers.ModelSerializer):
         minutes_apart = instance.deadline - bid_time
 
         user = self.get_user()
-
+        exchanged = currency_converter(float(instance.price), validated_data['currency'])
 
         if (minutes_apart.seconds % 3600 / 60.0) <= 20:
             instance.deadline = instance.deadline + timedelta(minutes=5)
+
         instance.bidder = user
-        print(instance.bidders.values_list('email', flat=True))
         instance.bidders.add(user)
+        
+        validated_data['price'] = Decimal(round(exchanged, 2)) 
+
 
         return super().update(instance, validated_data)
 
