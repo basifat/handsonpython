@@ -38,17 +38,8 @@ class AuctionViewSet(viewsets.ModelViewSet):
     serializer_class = AuctionSerializer
     filterset_fields = ['title']
 
-    def create(self, request, *args, **kwargs):
-        
-        return super().create(request, *args, **kwargs)
-
-
-    
-
 
     def update(self, request, *args, **kwargs):
-
-        print(request.user)
 
         if request.method == "PUT":
             instance = self.get_object()
@@ -82,6 +73,13 @@ class AuctionViewSet(viewsets.ModelViewSet):
 
 
             return response
+
+
+#Assignment
+#create a new project
+#create a new app (i.e auction)
+#create a single template view and a rest view.
+#We make translation 
 
 #Assignment 1
 # delacare a dictionary called currencies. It will ahve each of the currency we care about and their multiplier values

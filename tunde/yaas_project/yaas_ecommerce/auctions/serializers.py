@@ -6,17 +6,15 @@ from rest_framework import serializers
 from auctions.models import Auction
 from yaasusers.models import YaasUser
 from auctions.tasks import task_send_created_email
+import requests
 from decimal import Decimal
 
 
 
 def currency_converter(amount, to_currency):
-    currency_converter= { 
-    'eur': 0.85, 
-    'gbp': 0.89,
-    'ngn': 5
-    }
-    return amount * currency_converter[to_currency]
+    r=requests.get('https://openexchangerates.org/api/latest.json' ,params={'app_id':'80ab8cd3ecdd4965b928a15741c46a81' })
+    currencies = r.json()['rates']
+    return amount * currencies[to_currency.upper()]
 
 
 class AuctionSerializer(serializers.ModelSerializer):
@@ -25,7 +23,7 @@ class AuctionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Auction
         fields = '__all__'
-        read_only_fields = ['bidder', 'deadline', 'bidders','seller']
+        read_only_fields = ['bidder', 'deadline', 'bidders','seller','display_price']
 
     def get_user(self):
         user = None
@@ -56,9 +54,8 @@ class AuctionSerializer(serializers.ModelSerializer):
 
         instance.bidder = user
         instance.bidders.add(user)
-        
-        validated_data['price'] = Decimal(round(exchanged, 2)) 
 
+        instance.display_price = Decimal(round(exchanged, 2)) 
 
         return super().update(instance, validated_data)
 

@@ -34,6 +34,7 @@ router.register(r'languages', YaasUserViews.YaasUserLanguageViewSet, basename='l
 urlpatterns = [path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('tunde', BasketViews.tundefn, name='tundefn-udid'),
+    path('tunde', BasketViews.tundefn, name='tundefn-udid'),
     path('homepage', BasketViews.homepage, name='homepage'),
     path('welcome', YaasUserViews.welcome, name='welcome'),
     path('language_page/<int:language_id>/', YaasUserViews.language_page, name='language_page'),

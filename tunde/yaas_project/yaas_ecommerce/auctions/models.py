@@ -40,8 +40,9 @@ class Auction(models.Model):
     title = models.CharField(max_length=255)
     currency=models.CharField(max_length=3, choices= CURRENCIES_CHOICES, default='USD' )
     description = models.TextField()
+    display_price= models.DecimalField(max_digits=100, decimal_places=2)
     minimum_price = models.DecimalField(max_digits=7, decimal_places=2)
-    price = models.DecimalField(max_digits=7, decimal_places=2)
+    price = models.DecimalField(max_digits=100, decimal_places=2)
     bidders = models.ManyToManyField(settings.AUTH_USER_MODEL) 
     deadline = models.DateTimeField(default=get_deadline)
     status= models.CharField(
