@@ -25,7 +25,7 @@ from django.conf.urls.i18n import i18n_patterns
 router = DefaultRouter()
 router.register(r'items', BasketViews.ItemViewSet, basename='item')
 router.register(r'auctions', AuctionViews.AuctionViewSet, basename='auction')
-router.register(r'users', YaasUserViews.YaasUserViewSet, basename='user')
+# router.register(r'users', YaasUserViews.YaasUserViewSet, basename='user')
 router.register(r'languages', YaasUserViews.YaasUserLanguageViewSet, basename='language')
 
 
@@ -33,6 +33,8 @@ router.register(r'languages', YaasUserViews.YaasUserLanguageViewSet, basename='l
 # i18n_patterns(
 urlpatterns = [path('', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('createuser/', YaasUserViews.YaasUserCreateView.as_view(), name='yaasusercreate'),
+    path('allusers/', YaasUserViews.YaasUserListView.as_view(), name="listusers"),
     path('tunde', BasketViews.tundefn, name='tundefn-udid'),
     path('tunde', BasketViews.tundefn, name='tundefn-udid'),
     path('homepage', BasketViews.homepage, name='homepage'),

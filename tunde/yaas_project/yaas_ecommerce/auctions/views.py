@@ -185,6 +185,21 @@ class AuctionViewSet(viewsets.ModelViewSet):
 
 
 
+#### Going forward
+#1. Create a new django project called 'yaas'
+#2. Add a new app for users called yusers.
+#3. Add an endpoint to create a user
+#4. Add an endpoint to get a user
+#4. Add an endpoint to update a user
+#5. Add an endpoint to delete a user
+
+#Note: All endpoints must be individual CRUD using API view. Responses must be properly serialized / JSON.
+
+
+
+
+
+
 
 
 
