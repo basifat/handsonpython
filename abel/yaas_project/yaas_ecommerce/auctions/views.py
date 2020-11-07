@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from datetime import datetime
 from auctions.models import Auction
+from decimal import Decimal
+import requests
 from auctions.serializers import AuctionSerializer
 from auctions.tasks import task_send_new_bid_email, task_send_banned_email
 
@@ -31,6 +33,7 @@ class BannedAuctionException(APIException):
     default_code = 'can not bid banned auction'
 
 
+    
 class AuctionViewSet(viewsets.ModelViewSet):
     """
     A simple ViewSet for listing or retrieving users.
@@ -43,7 +46,15 @@ class AuctionViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
+
+    currencies = {'eur': 1, 'gbp': 1.11, 'ngn': 500.00} 
     
+   
+
+       
+            
+
+   
     def update(self, request, *args, **kwargs):
         print(request.user)
         if request.method == "PUT":
@@ -65,36 +76,22 @@ class AuctionViewSet(viewsets.ModelViewSet):
             if request.data['status']=='banned':
                 task_send_banned_email.delay(instance.id)
                 return response
-                
+              
             task_send_new_bid_email.delay(instance.id)
             return response
 
-
-#Assignment1
-#Add a new field to auction called latest_bid_date_time 
-#Update the latest_bid_date_time everytime someone bids on an auction 
-#Make the field read only so that it is not available on the API form.
-
-#task:
-# 1 add latest_bid_date_time, make it readonly
-#2 update latest bid time when there is bid
-
-#Task:
-# 1 
-# add seller_total_bids to model
-#Assignment2
-#Add a new field to auction called seller_total_bids 
-# Know the seller(bidder) that is bidding 
-# Add 1 to the sellers total bid count
-#Make the field read only so that it is not available on the API form.
+    
+#Assignment 1
+# delacare a dictionary called currencies. It will ahve each of the currency we care about and their multiplier values
+# i.e currencies = {eur: 1, gbp: 1.11, ngn: 500}
+# When a user chooses gbp, we want the existing price to be multiplied by the currency multiplier.
+# i.e 
+# currency = gbp
+# (old) price = 100 
+# (new) price = 111
+#task: 
 
 
 
 
-# If a user bids at an auction within five minutes of the auction deadline, 
-# the auction deadline is extended au-tomatically for an additional fiveve minutes. This allows other users to place
-# new bids.
 
-#task:
-#1 get time of bidder
-# extend time by 5 minutes

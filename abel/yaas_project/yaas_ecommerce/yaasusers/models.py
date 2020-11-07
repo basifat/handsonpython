@@ -7,6 +7,17 @@ from django.contrib.auth.models import (
 from django.contrib.auth.models import PermissionsMixin
 from yaasusers.manager import YaasUserManager
 
+class YaasUserLanguage(models.Model):
+
+  language=models.CharField(max_length=40, null=True)
+  language_iso=models.CharField(max_length=20, null=True)
+  #user=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, default=1)
+  country=models.CharField(max_length=20, null=True)
+
+  def __str__(self):
+    return self.language
+
+
 class YaasUser(AbstractBaseUser, PermissionsMixin):
   username = models.CharField(max_length=20, unique=True)
   first_name= models.CharField(max_length=255,null=True)
@@ -14,18 +25,15 @@ class YaasUser(AbstractBaseUser, PermissionsMixin):
   email = models.CharField(max_length=20)
   created = models.DateTimeField(auto_now_add=True)
   is_staff= models.BooleanField(default=False)
+  language=models.ForeignKey(YaasUserLanguage,on_delete=models.CASCADE, default=1)
   
 
   REQUIRED_FIELDS = ['email', 'created']
   USERNAME_FIELD = 'username'
   objects=YaasUserManager()
 
+  
 
-class YaasUserLanguage(models.Model):
-
-  language=models.CharField(max_length=40, null=True)
-  language_iso=models.CharField(max_length=20, null=True)
-  user=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
 
 
   

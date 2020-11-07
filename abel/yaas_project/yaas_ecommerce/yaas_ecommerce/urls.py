@@ -19,14 +19,14 @@ from rest_framework.routers import DefaultRouter
 from basket import views as Basketviews
 from auctions import views as Auctionviews
 from yaasusers import views as YaasUsersViews
-from yaasusers import views as YaasUsersLanguageViews
 
 
 router = DefaultRouter()
 router.register(r'items', Basketviews.ItemViewSet, basename='item')
 router.register(r'auctions', Auctionviews.AuctionViewSet, basename='auction')
 router.register(r'users', YaasUsersViews.YaasUserViewSet, basename='user')
-router.register(r'languages', YaasUsersLanguageViews.YaasUserLanguageViewSet, basename='language')
+router.register(r'languages', YaasUsersViews.YaasUserLanguageViewSet, basename='language')
+#router.register(r'languages', YaasUsersViews.YaasUserLanguageViewSet, basename='language')
 
 
 
@@ -35,6 +35,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('tunde', Basketviews.tunde, name='tunde'),
     path('homepage', Basketviews.homepage, name='homepage'),
+    path('i18n/', include('django.conf.urls.i18n')),
+    path('welcome', YaasUsersViews.welcome, name='welcome'),
+    path('language_page/<int:language_id>/', YaasUsersViews.language_page, name='language_page'),
+    path('translate_text',YaasUsersViews.translate_text, name='translate_text'),
 ]
 
 
