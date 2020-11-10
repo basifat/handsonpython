@@ -27,6 +27,6 @@ router.register(r'info', views.DancingViewSet, basename='info')
 
 urlpatterns = [path('', include(router.urls)),
     path('admin/', admin.site.urls),
-     path('createuser/', views.DancingCreateView.as_view(), name='yusercreate'),
+    path('dancing/', views.DancingView.as_view(), name='dancing'),
     path('debs', views.debby, name='debs'),
 ]
