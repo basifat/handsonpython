@@ -1,3 +1,5 @@
+import sys
+print(sys.path)
 """ This class implements the abstract methods of 'Base Table', 
 and also inherits method from the student class. 
 """

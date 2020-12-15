@@ -1,0 +1,2 @@
+msgid "Welcome to  django webshop"
+msgstr "Tervetuloa django-verkkokauppaan"

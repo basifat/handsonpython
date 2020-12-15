@@ -1,0 +1,4 @@
+#/home/abel/Documents/handsonpython/abel/yaas_project/yaas_ecommerce/yaasusers/templates/yaasusers/welcome.html
+#abel/yaas_project/yaas_ecommerce/yaasusers/templates/yaasusers/welcome.html
+msgid "Welcome to  django webshop"
+msgstr "Tervetuloa django-verkkokauppaan"
